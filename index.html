@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            src: url('Inter-VariableFont_opsz,wght.ttf') format('truetype-variations');
+        }
+
+        body {
+            background-color: #09090d;
+            color: #e8e9ff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700; /* Bold weight */
+            font-size: 3rem;
+        }
+        #download-button {
+            background-color: #e8e9ff;
+            color: #09090d;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            margin-top: 20px;
+            display: none; /* Hidden by default */
+            cursor: pointer;
+        }
+        #countdown {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown"></div>
+    <a id="download-button">DOWNLOAD ZIP</a>
+
+    <script>
+        (function() {
+            // The encoded download URL
+            const encodedUrl = "aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvMTIwNDk4NTQ4NDcxNjE0NjcxOC8xNDAxMjk3MjM4MDMzOTYxMTAxL0dPT0ZZX1RFU1RfQ09QWS56aXA/ZXg9Njg4ZmMzNDAmaXM9Njg4ZTcxYzAmaG09YWQ3NDk0Mzc5OTAyM2E2NjhlZDMyZjIyZGFhNjczMWZiZWRjNjA4MjI5YTNkMzk1MDFmZGUyZDAyYWEzYzUwZCY=";
+            
+            // Set the date we're counting down to
+            const countDownDate = new Date("2025-08-02T19:30:00-05:00").getTime();
+            let x; // Declare interval variable
+
+            function finishCountdown() {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "THE WAIT IS OVER";
+                const downloadButton = document.getElementById("download-button");
+                downloadButton.href = atob(encodedUrl); // Decode and set the URL
+                downloadButton.style.display = "block";
+            }
+
+            // Update the count down every 1 millisecond for precision
+            x = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                const milliseconds = distance % 1000;
+
+                document.getElementById("countdown").innerHTML = hours + "H "
+                + minutes + "M " + seconds + "S " + milliseconds.toString().padStart(3, '0').slice(0, 2) + "MS";
+
+                if (distance < 0) {
+                    finishCountdown();
+                }
+            }, 1);
+
+            // Secret key sequence to skip timer
+            let userInput = '';
+            const secretCode = 'test';
+            document.addEventListener('keydown', (e) => {
+                userInput += e.key;
+                userInput = userInput.slice(-secretCode.length);
+                if (userInput.toLowerCase() === secretCode) {
+                    finishCountdown();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
