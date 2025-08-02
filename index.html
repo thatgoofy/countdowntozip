@@ -75,17 +75,6 @@
                 if (distance < 0) {
                     finishCountdown();
                 }
-            }, 1);
-
-            // Secret key sequence to skip timer
-            let userInput = '';
-            const secretCode = 'test';
-            document.addEventListener('keydown', (e) => {
-                userInput += e.key;
-                userInput = userInput.slice(-secretCode.length);
-                if (userInput.toLowerCase() === secretCode) {
-                    finishCountdown();
-                }
             });
         })();
     </script>
